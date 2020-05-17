@@ -36,23 +36,18 @@ require 'core_extensions'
 
 ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']
 
-if defined?(Bundler)
-  # lib directory has to be added to the load path so that
-  # the open_project/plugins files can be found (places under lib).
-  # Now it would be possible to remove that and use require with
-  # lib included but some plugins already use
-  #
-  # require 'open_project/plugins'
-  #
-  # to ensure the code to be loaded. So we provide a compaibility
-  # layer here. One might remove this later.
-  $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-  require 'open_project/plugins'
 
-  # Require the gems listed in Gemfile, including any gems
-  # you've limited to :test, :development, or :production.
-  Bundler.require(*Rails.groups(:opf_plugins))
-end
+# lib directory has to be added to the load path so that
+# the open_project/plugins files can be found (places under lib).
+# Now it would be possible to remove that and use require with
+# lib included but some plugins already use
+#
+# require 'open_project/plugins'
+#
+# to ensure the code to be loaded. So we provide a compaibility
+# layer here. One might remove this later.
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+require 'open_project/plugins'
 
 require_relative '../lib/open_project/configuration'
 

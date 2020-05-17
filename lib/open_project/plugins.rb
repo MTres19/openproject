@@ -28,6 +28,28 @@
 
 module OpenProject
   module Plugins
+    # Find plugins without using bundler
+    def self.find_plugins
+      # This avoids using bundler to load plugins. "Modules" are bundled plugins, "plugins" plugins are non-bundled (confusing!)
+      plugins_hashtable = Hash.new()
+      
+      [ 'modules', 'plugins' ].each do |plugin_type|
+        directory = File.expand_path("../../../#{plugin_type}", __FILE__)
+        if Dir.exist?(directory)
+          Dir.each_child(directory) do |plugin_name|
+            plugin_dir = "#{directory}/#{plugin_name}"
+            $LOAD_PATH.unshift "#{plugin_dir}/lib"
+            plugin_spec = Gem::Specification::load(Dir.glob("#{plugin_dir}/*.gemspec").at(0))
+            
+            plugins_hashtable[plugin_spec.name] = plugin_spec
+          end
+        end
+      end
+      plugins_hashtable
+    end
+    
+    ALL_PLUGINS = find_plugins
+    
     require 'open_project/plugins/patch_registry'
     require 'open_project/plugins/load_dependency'
     require 'open_project/plugins/acts_as_op_engine'
