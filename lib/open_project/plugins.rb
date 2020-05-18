@@ -39,7 +39,12 @@ module OpenProject
           Dir.each_child(directory) do |plugin_name|
             plugin_dir = "#{directory}/#{plugin_name}"
             $LOAD_PATH.unshift "#{plugin_dir}/lib"
-            plugin_spec = Gem::Specification::load(Dir.glob("#{plugin_dir}/*.gemspec").at(0))
+            plugin_spec_file = Dir.glob("#{plugin_dir}/*.gemspec").at(0)
+            
+            plugin_spec = Gem::Specification::load(plugin_spec_file)
+            plugin_spec.full_gem_path = plugin_dir # RubyGems expects a gem/gem-name-version directory structure that we don't have
+            #plugin_spec.spec_dir = plugin_dir        # No setter for this
+            #plugin_spec.spec_file = plugin_spec_file # No setter for this
             
             plugins_hashtable[plugin_spec.name] = plugin_spec
           end
