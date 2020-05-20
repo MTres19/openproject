@@ -51,6 +51,10 @@ require 'open_project/plugins'
 # I don't know what this does but it seems to need to come after lib is added to the load path
 require 'core_extensions'
 
+# Require everything that bundler would have required for us
+require_relative 'require_everything'
+OpenProject::Plugins::ALL_PLUGINS.each_value { |plugin_spec| require plugin_spec.name }
+
 require_relative '../lib/open_project/configuration'
 
 env = ENV['RAILS_ENV'] || 'production'
