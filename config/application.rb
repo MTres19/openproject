@@ -32,7 +32,6 @@ require_relative 'boot'
 require 'rails/all'
 require 'active_support'
 require 'active_support/dependencies'
-require 'core_extensions'
 
 ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']
 
@@ -48,6 +47,9 @@ ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT
 # layer here. One might remove this later.
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 require 'open_project/plugins'
+
+# I don't know what this does but it seems to need to come after lib is added to the load path
+require 'core_extensions'
 
 require_relative '../lib/open_project/configuration'
 
