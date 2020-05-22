@@ -113,7 +113,7 @@ gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.2'
 
 gem 'cells-erb', '~> 0.1'
-gem 'cells-rails', '~> 0.0.9'
+gem 'cells-rails', '~> 0.1'
 
 gem 'meta-tags', '~> 2.13'
 
@@ -122,14 +122,14 @@ gem 'meta-tags', '~> 2.13'
 gem 'dalli', '~> 2.7.10'
 
 
-gem 'autoprefixer-rails', '~> 9.7.4'
-gem 'bourbon', '~> 6.0.0'
-gem 'i18n-js', '~> 3.6.0'
-gem 'rails-i18n', '~> 6.0.0'
-gem 'sassc-rails', '~> 2.1.0'
-gem 'sprockets', '~> 3.7.0'
+gem 'autoprefixer-rails', '~> 9.7'
+gem 'bourbon', '~> 6.0'
+gem 'i18n-js', '~> 3.6'
+gem 'rails-i18n', '~> 6.0'
+gem 'sassc-rails', '~> 2.1'
+gem 'sprockets', '~> 3.7'
 
-gem 'puma', '~> 4.3.1' # used for development and optionally for production
+gem 'puma', '~> 4.3' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.10'
 
@@ -142,7 +142,7 @@ gem 'aws-sdk-s3', '~> 1.61'
 
 gem 'openproject-token', '~> 1.0.2'
 
-gem 'plaintext', '~> 0.3.2'
+gem 'plaintext', '~> 0.3'
 
 gem 'rest-client', '~> 2.0'
 
@@ -152,20 +152,20 @@ gem 'ruby-progressbar', '~> 1.10'
 #gem 'bootsnap', '~> 1.4.5', require: false
 
 # API gems
-gem 'grape', '~> 1.3.0'
+gem 'grape', '~> 1.3'
 
-gem 'reform', '~> 2.2.0'
-gem 'reform-rails', '~> 0.1.7'
-gem 'roar', '~> 1.1.0'
+gem 'reform', '~> 2.2'
+gem 'reform-rails', '~> 0.1'
+gem 'roar', '~> 1.1'
 
-gem 'pg', '~> 1.2.2'
+gem 'pg', '~> 1.2'
 
 # Support application loading when no database exists yet.
-gem 'activerecord-nulldb-adapter', '~> 0.4.0'
+gem 'activerecord-nulldb-adapter', '~> 0.4'
 
 # Have application level locks on the database to have a mutex shared between workers/hosts.
 # We e.g. emply this to safeguard the creation of journals.
-gem 'with_advisory_lock', '~> 4.6.0'
+gem 'with_advisory_lock', '~> 4.6'
 
 
 
