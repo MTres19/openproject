@@ -60,7 +60,7 @@ require_relative 'require_everything'
 OpenProject::Plugins::ALL_PLUGINS.each_value do |plugin_spec|
   plugin_spec.dependencies.each_entry do |plugin_dep|
     begin
-      plugin_dep.to_spec.activate if plugin.dep.runtime?
+      plugin_dep.to_spec.activate if plugin_dep.runtime?
       
     rescue Gem::MissingSpecError
       puts "Skipping dependency of plugin #{plugin_spec.name}: #{plugin_dep}"
