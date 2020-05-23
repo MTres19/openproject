@@ -36,8 +36,8 @@ module ::OpenProject::Plugins
 
       def initialize
 
-        @openproject_plugins = OpenProject::Plugins::ALL_PLUGINS.each_with_object({}) do |spec, h|
-          h[spec.name] = spec.full_gem_path
+        @openproject_plugins = OpenProject::Plugins::ALL_PLUGINS.each_with_object({}) do |(name, spec), h|
+          h[name] = spec.full_gem_path
         end
       end
 
