@@ -63,7 +63,7 @@ OpenProject::Plugins::ALL_PLUGINS.each_value do |plugin_spec|
       plugin_dep.to_spec.activate if plugin.dep.runtime?
       
     rescue Gem::MissingSpecError
-      puts "Skipping dependency: #{plugin_dep}"
+      puts "Skipping dependency of plugin #{plugin_spec.name}: #{plugin_dep}"
     end
   end
 end
