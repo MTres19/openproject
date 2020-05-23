@@ -53,6 +53,20 @@ require 'core_extensions'
 
 # Require everything that bundler would have required for us
 require_relative 'require_everything'
+
+# Activate all the gems that plugins depend on. Normally this would happen automatically,
+# but the reporting plugin uses javascript from multi_json and needs to reference its path
+# before/without a require statement.
+OpenProject::Plugins::ALL_PLUGINS.each_value do |plugin_spec|
+  plugin_spec.dependencies.each_entry do |plugin_dep|
+    begin
+      plugin_dep.to_spec.activate if plugin.dep.runtime?
+      
+    rescue Gem::MissingSpecError
+      puts "Skipping dependency: #{plugin_dep}"
+    end
+  end
+end
 OpenProject::Plugins::ALL_PLUGINS.each_value { |plugin_spec| require plugin_spec.name }
 
 require_relative '../lib/open_project/configuration'
