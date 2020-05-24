@@ -51,9 +51,6 @@ require 'open_project/plugins'
 # I don't know what this does but it seems to need to come after lib is added to the load path
 require 'core_extensions'
 
-# Require everything that bundler would have required for us
-require_relative 'require_everything'
-
 # Activate all the gems that plugins depend on. Normally this would happen automatically,
 # but the reporting plugin uses javascript from multi_json and needs to reference its path
 # before/without a require statement.

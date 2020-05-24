@@ -27,12 +27,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 # Load any local boot extras that is kept out of source control
 # (e.g., silencing of deprecations)
 if File.exists?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
   instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
 end
+
+# Require everything that bundler would have required for us
+require_relative 'require_everything'
 
 if ENV['RAILS_ENV'] == 'development'
   $stderr.puts "Starting with bootsnap."
