@@ -168,13 +168,8 @@ default:
   log_level: info
 
   # Outgoing emails configuration (see examples above)
-  email_delivery_method: :smtp
-  smtp_address: smtp.example.net
-  smtp_port: 25
-  smtp_domain: example.net
-  smtp_authentication: :login
-  smtp_user_name: "openproject@example.net"
-  smtp_password: "my_openproject_password"
+  # Please use the YaST Sysconfig editor to make changes.
+  email_delivery_method: :sendmail
 
   # Prefix to the url-path. This path is then prepended to all
   # the routes and is used to correclty identify the path to the assets.
@@ -196,7 +191,7 @@ default:
   # directory.
   # Examples:
   # attachments_storage_path: /var/openproject/files
-  # attachments_storage_path:
+  attachments_storage_path: /var/lib/openproject/files
 
   # Grace period until uploaded but unassigned (i.e. to a container like work packages,
   # wiki pages) attachments are deleted (in minutes)

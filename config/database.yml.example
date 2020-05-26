@@ -28,11 +28,11 @@
 
 production:
   adapter: postgresql
+  url: postgresql://%2Frun%2Fpostgresql
   encoding: unicode
   database: openproject
   pool: 20
   username: openproject
-  password:
 
 development:
   adapter: postgresql
