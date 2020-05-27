@@ -169,7 +169,15 @@ default:
 
   # Outgoing emails configuration (see examples above)
   # Please use the YaST Sysconfig editor to make changes.
-  email_delivery_method: :sendmail
+  email_delivery_method: <%= ENV.fetch('EMAIL_DELIVERY_METHOD') { :sendmail } %>
+  smtp_address: <%= ENV['SMTP_HOST'] %>
+  smtp_port: <%= ENV.fetch('SMTP_PORT') { 25 }.to_i %>
+  smtp_domain: <%= ENV.fetch('SMTP_DOMAIN') { ENV['HOSTNAME'] } %>
+  smtp_authentication: <%= ENV.fetch('SMTP_AUTHENTICATION') { :login }.to_sym %>
+  smtp_user_name: <%= ENV['SMTP_USERNAME'] %>
+  smtp_password: <%= ENV['SMTP_PASSWORD'] %>
+  smtp_enable_starttls_auto: <%= ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO') { "false" } %>
+  smtp_ssl: <%= ENV.fetch('SMTP_SSL') { "false" } %>
 
   # Prefix to the url-path. This path is then prepended to all
   # the routes and is used to correclty identify the path to the assets.
@@ -312,18 +320,19 @@ default:
   #
   # Exemplary configuration
   #
-  # scm:
+scm:
   #   git:
   #     client_command: /usr/local/bin/git
   #     disabled_types:
   #       - :local
   #     manages: /opt/repositories/git
-  #   subversion:
-  #     client_command: /usr/local/bin/svn
-  #     trustedssl: true
-  #     disabled_types:
-  #       - :existing
-  #     manages: /opt/repositories/svn
+  subversion:
+    client_command: /usr/bin/svn
+    group: wwwrun
+    mode: 0770
+    disabled_types:
+      - :existing
+    manages: /var/lib/openproject/svn
 
   # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
   # If you don't want to enable data encryption, just leave it blank.
