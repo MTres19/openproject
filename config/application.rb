@@ -52,7 +52,7 @@ require 'open_project/plugins'
 require 'core_extensions'
 
 # Require everything (boot.rb took care of the versioning)
-require_relative 'require_everything'
+require_relative 'require_runtime_deps'
 
 # Activate all the gems that plugins depend on. Normally this would happen automatically,
 # but the reporting plugin uses javascript from multi_json and needs to reference its path

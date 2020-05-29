@@ -34,7 +34,7 @@ if File.exists?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
 end
 
 # Select gem version for everything that bundler would have handled
-require_relative 'gem_everything'
+require_relative 'gem_runtime_deps'
 
 if ENV['RAILS_ENV'] == 'development'
   $stderr.puts "Starting with bootsnap."
