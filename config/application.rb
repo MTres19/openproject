@@ -98,7 +98,7 @@ end
 # some javascript.
 OpenProject::Plugins::ALL_PLUGINS.each_value do |plugin_spec|
   plugin_spec.dependencies.each_entry do |plugin_dep|
-    plugin_dep.to_spec.activate unless OpenProject::Plugins::ALL_PLUGINS.key?(plugin_dep.name)
+    plugin_dep.to_spec.activate unless OpenProject::Plugins::ALL_PLUGINS.key?(plugin_dep.name) || plugin_dep.type == :development
   end
 end
 
