@@ -139,4 +139,11 @@ OpenProject::Application.configure do
       'Expires' => "#{1.year.from_now.to_formatted_s(:rfc822)}"
     }
   end
+
+  # Use a tmpfs path for temporary files
+  config.paths['tmp'] = ['/run/openproject/tmp']
+  
+  # Use the tmpfs for cache, but configuration.yml should override this if
+  # memcached is used.
+  config.cache_store = :file_store, config.paths['/run/openproject/tmp/cache']
 end
