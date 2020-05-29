@@ -328,7 +328,7 @@ scm:
   #     manages: /opt/repositories/git
   subversion:
     client_command: /usr/bin/svn
-    group: wwwrun
+    group: www
     mode: 0770
     disabled_types:
       - :existing
