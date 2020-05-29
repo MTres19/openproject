@@ -121,8 +121,6 @@ gem 'meta-tags', '~> 2.13'
 # requires memcached 1.4+
 gem 'dalli', '~> 2.7.10'
 
-
-gem 'autoprefixer-rails', '~> 9.7'
 gem 'bourbon', '~> 6.0'
 gem 'i18n-js', '~> 3.6'
 gem 'rails-i18n', '~> 6.0'

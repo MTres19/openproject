@@ -36,6 +36,9 @@ Rake::Task['assets:precompile']
   .enhance(%w[ assets:compile_environment assets:prepare_op])
 
 namespace :assets do
+  require Rails.root.join('config', 'gem_assetpipeline_deps')
+  require Rails.root.join('config', 'require_assetpipeline_deps')
+  
   # In this task, set prerequisites for the assets:precompile task
   task compile_environment: :prepare_op do
     Rake::Task['assets:environment'].invoke
