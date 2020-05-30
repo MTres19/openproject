@@ -51,7 +51,6 @@ module OpenProject
     def self.register_hook(name, &callback)
       raise "A hook named '#{name}' is already registered!" if find(name)
 
-      Rails.logger.warn "hook registered"
       hook = Hook.new(name, &callback)
       @@registered_hooks << hook
       hook
