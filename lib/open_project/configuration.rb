@@ -286,7 +286,9 @@ module OpenProject
             if @config['cache_memcache_server']
         # default to :file_store
         elsif cache_store.nil? || cache_store == :file_store
-          cache_config = [:file_store, Rails.root.join('tmp/cache')]
+          cache_path = '/run/openproject/tmp/cache' if Rails.env.production?
+          cache_path = Rails.root.join('tmp/cache') unless Rails.env.production?
+          cache_config = [:file_store, cache_path]
         else
           cache_config = [cache_store]
         end
