@@ -31,6 +31,14 @@ require 'carrierwave'
 require 'carrierwave/storage/fog'
 
 module CarrierWave
+  class << self
+    def root
+      Rails.env.production? ? OpenProject::Configuration.attachments_storage_path.to_s : super
+    end
+    def tmp_path
+      Rails.env.production? ? Rails.application.config.paths['tmp'].to_a.at(0) : super
+    end
+  end
   module Configuration
     def self.configure_fog!(credentials: OpenProject::Configuration.fog_credentials,
                             directory: OpenProject::Configuration.fog_directory,
