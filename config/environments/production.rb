@@ -142,7 +142,9 @@ OpenProject::Application.configure do
 
   # Use a tmpfs path for temporary files
   # Note that selection of file-cache or memcached, as well as selection of /run/openproject/tmp or relative tmp
-  # is handled in lib/open_project/configuration.rb.
+  # is handled in lib/open_project/configuration.rb. Don't exactly know why we have to duplicate
+  # this call here when it's already in application.rb.
   config.paths['tmp'] = ['/run/openproject/tmp']
   config.paths['cache'] = ['/run/openproject/tmp/cache']
+  OpenProject::Configuration.configure_cache config
 end
