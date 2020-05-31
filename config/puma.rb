@@ -26,4 +26,5 @@ preload_app! if ENV["RAILS_ENV"] == 'production'
 plugin :tmp_restart unless ENV["RAILS_ENV"] == 'production'
 
 # Added for openSUSE Packaging
-plugin :systemd
+plugin :systemd if ENV["RAILS_ENV"] == 'production'
+bind 'unix:///run/openproject/openproject-puma.sock' if ENV["RAILS_ENV"] == 'production'
