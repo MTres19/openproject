@@ -321,11 +321,6 @@ default:
   # Exemplary configuration
   #
 scm:
-  #   git:
-  #     client_command: /usr/local/bin/git
-  #     disabled_types:
-  #       - :local
-  #     manages: /opt/repositories/git
   subversion:
     client_command: /usr/bin/svn
     group: www
