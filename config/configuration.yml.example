@@ -20,5 +20,9 @@ production:
       manages: <%= ENV['OPENPROJECT_GIT_MGMT_URL'] %>
       access_token: <%= ENV['OPENPROJECT_GIT_REPOMAN_TOKEN'] %>
       insecure: <%= ENV['OPENPROJECT_GIT_INSECURE_REPOMAN'] %>
-      #
+      # OpenProject clones a copy of remote git repositories for convenience
       local_checkout_path: <%= ENV['OPENPROJECT_GIT_LOCAL_CHECKOUT_PATH'] || '/var/lib/openproject/repositories/cache/git' %>
+  
+  # This is used for repository authentication
+  sys_api_enabled: 1
+  sys_api_key: <%= ENV['OPENPROJECT_SYS_API_KEY'] %>
