@@ -170,7 +170,11 @@ module OpenProject
       'sentry_host' => 'https://sentry.openproject.com',
 
       # Allow connection to Augur
-      'enterprise_trial_creation_host' => 'https://augur.openproject.com'
+      'enterprise_trial_creation_host' => 'https://augur.openproject.com',
+      
+      # SYS API configuration moved out of database for convenience.
+      'sys_api_enabled' => 0,
+      'sys_api_key' => ''
     }
 
     @config = nil
