@@ -49,7 +49,7 @@ class SCM::CreateManagedRepositoryService < SCM::BaseRepositoryService
         SCM::CreateRemoteRepositoryJob.perform_now(repository)
       else
         SCM::CreateLocalRepositoryJob.ensure_not_existing!(repository)
-        SCM::CreateLocalRepositoryJob.perform_later(repository)
+        SCM::CreateLocalRepositoryJob.perform_now(repository)
       end
       return true
     end
