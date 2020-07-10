@@ -27,4 +27,10 @@ plugin :tmp_restart unless ENV["RAILS_ENV"] == 'production'
 
 # Added for openSUSE Packaging
 plugin :systemd if ENV["RAILS_ENV"] == 'production'
-bind 'unix:///run/openproject/openproject-puma.sock' if ENV["RAILS_ENV"] == 'production'
+
+if ENV["OPENPROJECT_PUMA_BIND_URL"] && !ENV["OPENPROJECT_PUMA_BIND_URL"].empty
+  bind ENV["OPENPROJECT_PUMA_BIND_URL"]
+else
+  bind 'unix:///run/openproject/openproject-puma.sock' if ENV["RAILS_ENV"] == 'production'
+  bind 'tcp://0.0.0.0:3000' if ENV["RAILS_ENV"] != 'production'
+end
