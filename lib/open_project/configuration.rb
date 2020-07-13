@@ -296,7 +296,15 @@ module OpenProject
             if @config['cache_memcache_server']
         # default to :file_store
         elsif cache_store.nil? || cache_store == :file_store
-          cache_config = [:file_store, Rails.root.join('tmp/cache')]
+          cache_path = nil
+          ['cache', 'tmp/cache', 'tmp'].each do |rails_path|
+            if Rails.application.config.paths[rails_path]
+              cache_path = Rails.application.config.paths[rails_path].to_a.at(0)
+              break
+            end
+          end
+          cache_path = Rails.root.join('tmp/cache') unless cache_path
+          cache_config = [:file_store, cache_path]
         else
           cache_config = [cache_store]
         end
@@ -310,7 +318,7 @@ module OpenProject
         # or cache store is :file_store
         # or there is something to overwrite it
         application_config.cache_store.nil? ||
-          application_config.cache_store == :file_store ||
+          application_config.cache_store & [:file_store] || # cache_store can contain another parameter, the cache path
           @config['rails_cache_store'].present?
       end
 
