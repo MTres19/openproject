@@ -51,6 +51,9 @@ module OpenProject
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
       'scm_local_checkout_path' => 'repositories', # relative to OpenProject directory
+      'sys_api_enabled' => 0, # Sys API configuration moved out of database for convenience.
+      'sys_api_key' => '',
+      
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
       'rails_cache_store'       => nil,
