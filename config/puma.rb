@@ -13,8 +13,7 @@ port ENV.fetch("PORT") { 3000 }.to_i
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch("RAILS_ENV") { "development" }
-
+environment ENV.fetch("RAILS_ENV") { "production" }
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.
@@ -32,3 +31,10 @@ preload_app! if ENV["RAILS_ENV"] == 'production'
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart unless ENV["RAILS_ENV"] == 'production'
+
+if ENV["OPENPROJECT_PUMA_BIND_URL"] && !ENV["OPENPROJECT_PUMA_BIND_URL"].empty?
+  bind ENV["OPENPROJECT_PUMA_BIND_URL"]
+else
+  bind 'unix:///run/openproject/openproject-puma.sock' if ENV["RAILS_ENV"] == 'production'
+  bind 'tcp://0.0.0.0:3000' if ENV["RAILS_ENV"] != 'production'
+end
