@@ -26,7 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'bundler'
 require 'fileutils'
 
 module ::OpenProject::Plugins
@@ -35,12 +34,9 @@ module ::OpenProject::Plugins
       attr_reader :openproject_plugins
 
       def initialize
-        op_dep = load_known_opf_plugins
 
-        @openproject_plugins = Bundler.load.specs.each_with_object({}) do |spec, h|
-          if op_dep.include?(spec.name)
-            h[spec.name] = spec.full_gem_path
-          end
+        @openproject_plugins = OpenProject::Plugins::ALL_PLUGINS.each_with_object({}) do |(name, spec), h|
+          h[name] = spec.full_gem_path
         end
       end
 
@@ -124,22 +120,6 @@ module ::OpenProject::Plugins
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
         result = template.result(context.get_binding)
         File.open(file_register, 'w') { |file| file.write(result) }
-      end
-
-      ##
-      # Print all gemspecs of registered OP plugins
-      # from the :opf_plugins group.
-      def load_known_opf_plugins
-        bundler_groups = %i[opf_plugins]
-        gemfile_path = Rails.root.join('Gemfile')
-
-        gems = Bundler::Dsl.evaluate(gemfile_path, '_temp_lockfile', true)
-
-        gems.dependencies
-          .each_with_object({}) do |dep, l|
-          l[dep.name] = dep if (bundler_groups & dep.groups).any?
-        end
-          .compact
       end
     end
   end

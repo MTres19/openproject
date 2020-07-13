@@ -32,7 +32,7 @@ require 'optparse'
 require 'plugins/load_path_helper'
 
 begin
-  Bundler.gem('parallel_tests')
+  gem 'parallel_tests'
 rescue Gem::LoadError
   # In case parallel_tests is not provided, the whole of the parallel task group will not work.
   return
@@ -104,7 +104,7 @@ namespace :parallel do
       rspec_options += " #{additional_options}"
     end
     group_options += " -o '#{rspec_options}'" if rspec_options.length.positive?
-    cmd = "bundle exec parallel_test --verbose --verbose-rerun-command --type rspec #{parallel_options} #{group_options} #{folders} #{pattern}"
+    cmd = "parallel_test --verbose --verbose-rerun-command --type rspec #{parallel_options} #{group_options} #{folders} #{pattern}"
     sh cmd
   end
 

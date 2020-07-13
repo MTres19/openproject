@@ -12,5 +12,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,lib}/**/*'] + %w(README.md)
 
-  s.add_dependency 'omniauth-saml', '~> 1.10.1'
+  s.add_dependency 'omniauth-saml', '~> 2.0'
+  s.add_dependency 'openproject-auth_plugins'
 end

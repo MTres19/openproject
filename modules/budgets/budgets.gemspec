@@ -7,4 +7,6 @@ Gem::Specification.new do |s|
   s.summary     = "OpenProject Budgets."
 
   s.files = Dir["{app,config,db,lib}/**/*"]
+  
+  s.add_dependency 'costs'
 end

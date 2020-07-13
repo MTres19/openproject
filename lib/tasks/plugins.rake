@@ -27,7 +27,6 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'bundler'
 require 'json'
 
 namespace :openproject do
