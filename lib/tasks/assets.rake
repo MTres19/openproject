@@ -77,4 +77,10 @@ namespace :assets do
   task :clobber do
     rm_rf FileList["#{Rails.root}/app/assets/javascripts/bundles/*"]
   end
+  
+  task :require_deps do
+    require Rails.root.join('config', 'gem_assetpipeline_deps')
+    require Rails.root.join('config', 'require_assetpipeline_deps')
+  end
+  task :precompile => :require_deps
 end

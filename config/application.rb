@@ -32,27 +32,79 @@ require_relative 'boot'
 require 'rails/all'
 require 'active_support'
 require 'active_support/dependencies'
-require 'core_extensions'
 
 ActiveSupport::Deprecation.silenced = Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']
 
-if defined?(Bundler)
-  # lib directory has to be added to the load path so that
-  # the open_project/plugins files can be found (places under lib).
-  # Now it would be possible to remove that and use require with
-  # lib included but some plugins already use
-  #
-  # require 'open_project/plugins'
-  #
-  # to ensure the code to be loaded. So we provide a compaibility
-  # layer here. One might remove this later.
-  $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
-  require 'open_project/plugins'
 
-  # Require the gems listed in Gemfile, including any gems
-  # you've limited to :test, :development, or :production.
-  Bundler.require(*Rails.groups(:opf_plugins))
+# lib directory has to be added to the load path so that
+# the open_project/plugins files can be found (places under lib).
+# Now it would be possible to remove that and use require with
+# lib included but some plugins already use
+#
+# require 'open_project/plugins'
+#
+# to ensure the code to be loaded. So we provide a compaibility
+# layer here. One might remove this later.
+$LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
+
+# Load a tiny override to the String class.
+require 'core_extensions'
+require 'open_project/plugins'
+
+
+# Require everything (boot.rb took care of the versioning)
+require_relative 'require_runtime_deps'
+
+# Activate all the gems that plugins depend on. Normally this would happen automatically,
+# but the reporting plugin uses javascript from multi_json and needs to reference its path
+# before/without a require statement.
+
+# Make a hash of plugins that depend on other plugins. 'PluginName' => array of plugins it depends on.
+plugin_interdeps = Hash.new
+OpenProject::Plugins::ALL_PLUGINS.each_value do |plugin_spec|
+  after = plugin_spec.dependencies.each_with_object([]) do |plugin_dep, a|
+    a.push plugin_dep.name if OpenProject::Plugins::ALL_PLUGINS.key?(plugin_dep.name)
+  end
+  
+  plugin_interdeps[plugin_spec.name] = after
 end
+
+# The first plugins to load are those that don't depend on any other plugins
+# We use an array because technically Hashes aren't really required to have
+# deterministic ordering.
+sorted_plugins = OpenProject::Plugins::ALL_PLUGINS.reject {|name, spec| plugin_interdeps.key?(name)}.values
+
+# Loop through the dependencies; plugins are appended to sorted_plugins
+# whenever all their interdependencies are already in sorted_plugins.
+next_plugin_interdeps = plugin_interdeps
+
+loop do
+  current_plugin_interdeps = next_plugin_interdeps
+  next_plugin_interdeps = Hash.new
+  
+  current_plugin_interdeps.each_pair do |name, after_plugins|
+    if after_plugins.all? {|after| sorted_plugins.any? {|sorted| sorted.name == after}}
+      sorted_plugins.push(OpenProject::Plugins::ALL_PLUGINS[name])
+    else
+      # This plugin's interdependencies aren't yet satisfied, try again next time
+      next_plugin_interdeps[name] = after_plugins
+    end
+  end
+  
+  break if next_plugin_interdeps.empty?
+end
+
+# Activate gem dependencies of plugins, as long as they're not another plugin.
+# The reporting plugin needs this because it references multi_json's path to get
+# some javascript.
+OpenProject::Plugins::ALL_PLUGINS.each_value do |plugin_spec|
+  plugin_spec.dependencies.each_entry do |plugin_dep|
+    plugin_dep.to_spec.activate unless OpenProject::Plugins::ALL_PLUGINS.key?(plugin_dep.name) || plugin_dep.type == :development
+  end
+end
+
+# Now, we finally require all the plugins in the proper order.
+sorted_plugins.each { |plugin_spec| require plugin_spec.name }
 
 require_relative '../lib/open_project/configuration'
 

@@ -27,15 +27,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
-
 # Load any local boot extras that is kept out of source control
 # (e.g., silencing of deprecations)
 if File.exists?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
   instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
 end
 
-require 'bundler/setup' # Set up gems listed in the Gemfile.
+# Select gem version for everything that bundler would have handled
+require_relative 'gem_runtime_deps'
 
 if ENV['RAILS_ENV'] == 'development'
   $stderr.puts "Starting with bootsnap."
