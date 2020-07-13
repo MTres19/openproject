@@ -235,8 +235,6 @@ module OpenProject
     # This allows for setting the root either via config file or via environment variable.
     config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
 
-    OpenProject::Configuration.configure_cache(config)
-
     config.active_job.queue_adapter = :delayed_job
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value

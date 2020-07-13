@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,42 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'fog/aws'
-require 'carrierwave'
-require 'carrierwave/storage/fog'
+instance_eval File.read(File.join(File.dirname(__FILE__), 'production.rb'))
 
-module CarrierWave
-  class << self
-    def root
-      Rails.env.production? ? OpenProject::Configuration.attachments_storage_path.to_s : super
-    end
-    def tmp_path
-      Rails.env.production? ? Rails.application.config.paths['tmp'].to_a.at(0) : super
-    end
-  end
-  module Configuration
-    def self.configure_fog!(credentials: OpenProject::Configuration.fog_credentials,
-                            directory: OpenProject::Configuration.fog_directory,
-                            public: false)
-
-      # Ensure that the provider AWS is uppercased
-      provider = credentials[:provider] || 'AWS'
-      if [:aws, 'aws'].include? provider
-        provider = 'AWS'
-      end
-
-      CarrierWave.configure do |config|
-        config.fog_provider    = 'fog/aws'
-        config.fog_credentials = { provider: provider }.merge(credentials)
-        config.fog_directory   = directory
-        config.fog_public      = public
-
-        config.use_action_status = true
-      end
-    end
-  end
-end
-
-unless OpenProject::Configuration.fog_credentials.empty?
-  CarrierWave::Configuration.configure_fog!
+OpenProject::Application.configure do
+  config.paths['tmp'] = [Rails.root.join('tmp')]
+  config.paths['cache'] = [Rails.root.join('tmp', 'cache')]
+  OpenProject::Configuration.configure_cache config
 end

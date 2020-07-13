@@ -81,6 +81,10 @@ OpenProject::Application.configure do
 
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
+
+  config.paths['tmp'] = [Rails.root.join('tmp')]
+  config.paths['cache'] = [Rails.root.join('tmp', 'cache')]
+  OpenProject::Configuration.configure_cache config
 end
 
 ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool

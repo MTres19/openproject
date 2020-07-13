@@ -130,4 +130,10 @@ OpenProject::Application.configure do
       'Expires' => 1.year.from_now.to_formatted_s(:rfc822).to_s
     }
   end
+
+  # Use a tmpfs path for temporary files. This can't be done in application.rb,
+  # since that's executed before production.rb
+  config.paths['tmp'] = ['/run/openproject/tmp']
+  config.paths['cache'] = ['/run/openproject/tmp/cache']
+  OpenProject::Configuration.configure_cache config
 end

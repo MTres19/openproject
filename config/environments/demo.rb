@@ -48,3 +48,5 @@ config.action_controller.perform_caching             = true
 # Disable mail delivery
 config.action_mailer.perform_deliveries = false
 config.action_mailer.raise_delivery_errors = false
+
+OpenProject::Configuration.configure_cache config
