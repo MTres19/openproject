@@ -1,4 +1,4 @@
-#!/usr/bin/env rake
+#!/usr/bin/rake.ruby2.6
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
