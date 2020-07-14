@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/ruby.ruby2.7
 begin
   load File.expand_path('spring', __dir__)
 rescue LoadError => e
