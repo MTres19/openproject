@@ -210,6 +210,9 @@ module OpenProject
       # * <tt>:file</tt>: the configuration file to load (default: config/configuration.yml)
       # * <tt>:env</tt>: the environment to load the configuration for (default: Rails.env)
       def load(options = {})
+        # ENV.delete used in YAML ERB to protect secrets; do not load config twice or things will be lost
+        return @config unless @config == nil
+        
         filename = options[:file] || File.join(Rails.root, 'config', 'configuration.yml')
         env = options[:env] || Rails.env
 
